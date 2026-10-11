@@ -62,4 +62,4 @@ Activité 2 — Créer le projet Node.js
  4) environnement , node.version  et le nom d'application .
 
 
- Activité 6.4 — Examiner la méthode HTTP   
+ Activité 6.4 — Examiner la méthode HTTP   # Atelier-2-Modules-programmation-asynchrone-et-architecture-en-couches
