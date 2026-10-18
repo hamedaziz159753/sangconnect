@@ -1,31 +1,21 @@
-import http from "node:http";
-import { sendJson } from "./utils/http.js";
-import { handleDonneurRoutes } from "./routes/donneur.routes.js";
+import express from "express";
 
-const port = 3000;
+import donneurRoutes from "./routes/donneur.routes.js";
 
-const server = http.createServer(async (req, res) => {
+const app = express();
 
-  const handled = await handleDonneurRoutes(req, res);
+const PORT = 3000;
 
-  if (handled) {
-    return;
-  }
+app.use(express.json());
 
-  if (req.url === "/" && req.method === "GET") {
-    sendJson(res, 200, {
-      message: "Bienvenue dans SangConnect"
+app.get("/", (req, res) => {
+    res.json({
+        message: "Bienvenue dans l'API SangConnect"
     });
-    return;
-  }
-
-  sendJson(res, 404, {
-    error: "Route non trouvée",
-    path: req.url,
-    method: req.method
-  });
 });
 
-server.listen(port, () => {
-  console.log(`Serveur démarré sur http://localhost:${port}`);
+app.use("/api/donneurs", donneurRoutes);
+
+app.listen(PORT, () => {
+    console.log(`Serveur démarré sur http://localhost:${PORT}`);
 });

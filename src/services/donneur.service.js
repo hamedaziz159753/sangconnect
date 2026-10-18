@@ -1,23 +1,24 @@
-import {
-  findAll,
-  findById,
-  searchByCity
-} from "../repositories/donneur.repository.js";
+const donneurs = [
+    {
+        id: 1,
+        nom: "Ben Ali",
+        prenom: "Ahmed",
+        groupeSanguin: "A+"
+    },
+    {
+        id: 2,
+        nom: "Trabelsi",
+        prenom: "Sami",
+        groupeSanguin: "O+"
+    }
+];
 
-export async function getAllDonneurs() {
-  return await findAll();
+export function getAll() {
+    return donneurs;
 }
 
-export async function getDonneurById(id) {
-  const donneur = await findById(id);
-
-  if (!donneur) {
-    throw new Error("Donneur introuvable");
-  }
-
-  return donneur;
-}
-
-export async function getDonneursByCity(ville) {
-  return await searchByCity(ville);
+export function getById(id) {
+    return donneurs.find(
+        donneur => donneur.id === id
+    );
 }

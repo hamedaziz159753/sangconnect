@@ -1,53 +1,23 @@
-import {
-  getAllDonneurs,
-  getDonneurById,
-  getDonneursByCity
-} from "../services/donneur.service.js";
+import * as donneurService from "../services/donneur.service.js";
 
-import { sendJson } from "../utils/http.js";
+export function getAll(req, res) {
 
-export async function listDonneurs(req, res) {
-  try {
-    const donneurs = await getAllDonneurs();
+    const donneurs = donneurService.getAll();
 
-    sendJson(res, 200, {
-      data: donneurs
-    });
-  } catch (error) {
-    console.error(error);
-
-    sendJson(res, 500, {
-      error: "Erreur interne du serveur"
-    });
-  }
+    res.json(donneurs);
 }
 
-export async function showDonneur(req, res, id) {
-  try {
-    const donneur = await getDonneurById(id);
+export function getById(req, res) {
 
-    sendJson(res, 200, {
-      data: donneur
-    });
-  } catch (error) {
-    sendJson(res, 404, {
-      error: error.message
-    });
-  }
-}
+    const id = Number(req.params.id);
 
-export async function searchDonneursByCity(req, res, ville) {
-  try {
-    const donneurs = await getDonneursByCity(ville);
+    const donneur = donneurService.getById(id);
 
-    sendJson(res, 200, {
-      data: donneurs
-    });
-  } catch (error) {
-    console.error(error);
+    if (!donneur) {
+        return res.status(404).json({
+            message: "Donneur introuvable"
+        });
+    }
 
-    sendJson(res, 500, {
-      error: "Erreur interne du serveur"
-    });
-  }
+    res.json(donneur);
 }
