@@ -22,3 +22,27 @@ export function getById(id) {
         donneur => donneur.id === id
     );
 }
+
+export function create(donneurData) {
+    const nouveauDonneur = {
+        id: donneurs.length + 1, // Génère un ID simple
+        ...donneurData,
+        createdAt: new Date()
+    };
+    
+    donneurs.push(nouveauDonneur);
+    return nouveauDonneur;
+}
+
+
+export function update(id, donneurData) {
+    const donneur = getById(id);
+
+    if (!donneur) {
+        return null;
+    }
+
+    Object.assign(donneur, donneurData);
+
+    return donneur;
+}
