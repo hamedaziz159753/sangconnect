@@ -1,48 +1,44 @@
-const donneurs = [
-    {
-        id: 1,
-        nom: "Ben Ali",
-        prenom: "Ahmed",
-        groupeSanguin: "A+"
-    },
-    {
-        id: 2,
-        nom: "Trabelsi",
-        prenom: "Sami",
-        groupeSanguin: "O+"
-    }
-];
+import * as donneurRepository
+    from "../repositories/donneur.repository.js";
 
-export function getAll() {
-    return donneurs;
+export async function getAll() {
+
+    return donneurRepository.findAll();
 }
+export async function getById(id) {
 
-export function getById(id) {
-    return donneurs.find(
-        donneur => donneur.id === id
-    );
-}
-
-export function create(donneurData) {
-    const nouveauDonneur = {
-        id: donneurs.length + 1, // Génère un ID simple
-        ...donneurData,
-        createdAt: new Date()
-    };
-    
-    donneurs.push(nouveauDonneur);
-    return nouveauDonneur;
-}
-
-
-export function update(id, donneurData) {
-    const donneur = getById(id);
+    const donneur =
+        await donneurRepository.findById(id);
 
     if (!donneur) {
-        return null;
+
+        const error = new Error(
+            "Donneur introuvable"
+        );
+
+        error.statusCode = 404;
+
+        throw error;
     }
 
-    Object.assign(donneur, donneurData);
-
     return donneur;
+}
+export async function create(data) {
+
+    return donneurRepository.create(data);
+}
+export async function update(id, data) {
+
+    await getById(id);
+
+    return donneurRepository.update(
+        id,
+        data
+    );
+}
+export async function remove(id) {
+
+    await getById(id);
+
+    await donneurRepository.remove(id);
 }

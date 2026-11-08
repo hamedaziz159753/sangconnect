@@ -148,3 +148,9 @@ Connection: keep-alive
 Keep-Alive: timeout=5
 
 {"message":"Données invalides","errors":[{"expected":"object","code":"invalid_type","path":[],"message":"Invalid input: expected object, received undefined"}]}
+
+
+
+GRANT ALL PRIVILEGES
+ON *.*
+TO 'sangconnect'@'localhost';

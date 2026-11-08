@@ -1,37 +1,36 @@
-const donneurs = [
-  {
-    id: 1,
-    nom: "Ben Ali",
-    prenom: "Ahmed",
-    groupeSanguin: "O+",
-    ville: "Tunis"
-  },
-  {
-    id: 2,
-    nom: "Mokni",
-    prenom: "Saif",
-    groupeSanguin: "A+",
-    ville: "Tunis"
-  },
-  {
-    id: 3,
-    nom: "Ben Motaz",
-    prenom: "Aziz",
-    groupeSanguin: "B+",
-    ville: "Sfax"
-  }
-];
+import prisma from "../database/prisma.js";
 
-export async function findAll() {
-  return donneurs;
+export function findAll() {
+    return prisma.donneur.findMany();
 }
 
-export async function findById(id) {
-  return donneurs.find(donneur => donneur.id === id);
+export function findById(id) {
+    return prisma.donneur.findUnique({
+        where: {
+            id: id
+        }
+    });
 }
 
-export async function searchByCity(city) {
-  return donneurs.filter(
-    donneur => donneur.ville.toLowerCase() === city.toLowerCase()
-  );
+export function create(data) {
+    return prisma.donneur.create({
+        data: data
+    });
+}
+
+export function update(id, data) {
+    return prisma.donneur.update({
+        where: {
+            id: id
+        },
+        data: data
+    });
+}
+
+export function remove(id) {
+    return prisma.donneur.delete({
+        where: {
+            id: id
+        }
+    });
 }

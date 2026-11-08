@@ -2,13 +2,23 @@
 import { z } from "zod";
 
 export const donneurSchema = z.object({
-    nom: z.string().min(1),
-    prenom: z.string().min(1),
+
+    nom: z.string().min(2),
+
+    prenom: z.string().min(2),
+
     groupeSanguin: z.enum([
-        "A+", "A-", "B+", "B-",
-        "AB+", "AB-", "O+", "O-"
+        "A+",
+        "A-",
+        "B+",
+        "B-",
+        "AB+",
+        "AB-",
+        "O+",
+        "O-"
     ]),
-    ville: z.string().min(1)
+
+    telephone: z.string().min(8).optional()
 });
 
 export const donneurQuerySchema = z.object({

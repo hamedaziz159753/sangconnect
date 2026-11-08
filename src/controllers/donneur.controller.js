@@ -1,29 +1,29 @@
-import * as donneurService from "../services/donneur.service.js";
-import { donneurSchema } from "../validators/donneur.validator.js"; 
+import * as donneurService
+    from "../services/donneur.service.js";
 
-export function getAll(req, res) {
-    const donneurs = donneurService.getAll();
-    res.json(donneurs);
-}
-
-export function getById(req, res, next) {
+export async function getAll(req, res, next) {
 
     try {
 
-        const id = req.params.id;
+        const donneurs =
+            await donneurService.getAll();
 
-        const donneur = donneurService.getById(id);
+        res.json(donneurs);
 
-        if (!donneur) {
+    } catch (error) {
 
-            const error = new Error(
-                "Donneur introuvable"
-            );
+        next(error);
+    }
+}
 
-            error.statusCode = 404;
+export async function getById(req, res, next) {
 
-            throw error;
-        }
+    try {
+
+        const id = Number(req.params.id);
+
+        const donneur =
+            await donneurService.getById(id);
 
         res.json(donneur);
 
@@ -32,42 +32,48 @@ export function getById(req, res, next) {
         next(error);
     }
 }
-
-export function create(req, res) {
-    const resultat = donneurSchema.safeParse(req.body);
-
-    // Si la validation Zod échoue
-    if (!resultat.success) {
-        console.log(resultat.error.issues);
-        return res.status(400).json({
-            message: "Données invalides",
-            errors: resultat.error.issues
-        });
-    }
-
-    // Si la validation réussit, on crée le donneur
-    const nouveauDonneur = donneurService.create(resultat.data);
-    
-    res.status(201).json(nouveauDonneur);
-}
-export function update(req, res) {
-    const id = Number(req.params.id);
-    const donneur = donneurService.update(id, req.body);
-
-    if (!donneur) {
-        return res.status(404).json({
-            message: "Donneur introuvable"
-        });
-    }
-
-    res.json(donneur);
-}
-
-export function example(req, res, next) {
+export async function create(req, res, next) {
 
     try {
 
-        // traitement
+        const donneur =
+            await donneurService.create(req.body);
+
+        res.status(201).json(donneur);
+
+    } catch (error) {
+
+        next(error);
+    }
+}
+export async function update(req, res, next) {
+
+    try {
+
+        const id = Number(req.params.id);
+
+        const donneur =
+            await donneurService.update(
+                id,
+                req.body
+            );
+
+        res.json(donneur);
+
+    } catch (error) {
+
+        next(error);
+    }
+}
+export async function remove(req, res, next) {
+
+    try {
+
+        const id = Number(req.params.id);
+
+        await donneurService.remove(id);
+
+        res.status(204).send();
 
     } catch (error) {
 

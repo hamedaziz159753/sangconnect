@@ -1,19 +1,22 @@
 import express from "express";
-import { validate } from "../middlewares/validate.js";
-
-import {
-    donneurSchema,
-    updateDonneurSchema,
-    donneurQuerySchema,
-    idSchema
-} from "../validators/donneur.validator.js";
 
 import {
     getAll,
     getById,
     create,
-    update
+    update,
+    remove
 } from "../controllers/donneur.controller.js";
+
+import {
+    donneurSchema,
+    idSchema,
+    donneurQuerySchema,
+    updateDonneurSchema
+} from "../validators/donneur.validator.js";
+
+import { validate }
+from "../middlewares/validate.js";
 
 const router = express.Router();
 
@@ -47,6 +50,12 @@ router.patch(
     validate(idSchema, "params"),
     validate(updateDonneurSchema, "body"),
     update
+);
+
+router.delete(
+    "/:id",
+    validate(idSchema, "params"),
+    remove
 );
 
 export default router;
