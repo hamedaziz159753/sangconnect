@@ -5,6 +5,8 @@ import { donneurSchema } from "./validators/donneur.validator.js";
 import { errorHandler }
 from "./middlewares/errorHandler.js";
 import centreRoutes from "./routes/centre.routes.js";
+import donRoutes from "./routes/don.routes.js";
+
 const app = express();
 
 const PORT = 3000;
@@ -16,6 +18,7 @@ app.get("/", (req, res) => {
         message: "Bienvenue dans l'API SangConnect"
     });
 });
+app.use("/api/dons", donRoutes);
 
 app.use("/api/donneurs", donneurRoutes);
 
